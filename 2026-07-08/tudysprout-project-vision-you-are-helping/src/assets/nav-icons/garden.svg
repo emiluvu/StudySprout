@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" role="img" aria-label="Garden">
+  <path d="M14 28h20l-3 12H17l-3-12Z" fill="#d9bd6f" stroke="#8c7a58" stroke-linejoin="round" stroke-width="2"/>
+  <path d="M24 29V13" stroke="#4d6948" stroke-linecap="round" stroke-width="3"/>
+  <path d="M23 19c-7-6-13-2-13-2s2 8 11 7c2-.2 3-2 2-5Z" fill="#91aa73" stroke="#4d6948" stroke-width="1.5"/>
+  <path d="M25 18c6-7 12-3 12-3s-1 8-10 8c-2 0-3-2-2-5Z" fill="#b9c992" stroke="#4d6948" stroke-width="1.5"/>
+  <circle cx="33" cy="15" r="3" fill="#e7b9a8"/>
+  <circle cx="15" cy="18" r="2.5" fill="#f0c4b3"/>
+</svg>

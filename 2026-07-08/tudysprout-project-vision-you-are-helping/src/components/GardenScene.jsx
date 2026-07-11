@@ -1,4 +1,4 @@
-import dashboardGardenPanel from "../assets/illustrations/dashboard-garden-panel.webp";
+import dashboardGardenPanel from "../assets/illustrations/dashboard-garden-panel.jpeg";
 import sidebarGardenVignette from "../assets/illustrations/sidebar-garden-vignette.webp";
 
 // GardenScene is a reusable illustration panel. The same component can show a

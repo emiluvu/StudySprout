@@ -14,6 +14,8 @@ export const STORAGE_KEYS = {
   studyGuideDraft: "studysprout.studyGuideDraft",
 };
 
+const VALID_DIFFICULTIES = ["easy", "medium", "hard"];
+
 function canUseLocalStorage() {
   return typeof window !== "undefined" && window.localStorage;
 }
@@ -56,7 +58,16 @@ function writeJson(key, value) {
 export function loadAddedAssignments() {
   const savedAssignments = readJson(STORAGE_KEYS.addedAssignments, []);
 
-  return Array.isArray(savedAssignments) ? savedAssignments : [];
+  if (!Array.isArray(savedAssignments)) {
+    return [];
+  }
+
+  // Saved data can outlive code changes while you are building the app. This
+  // normalizes user-created assignments so older localStorage data cannot crash
+  // the dashboard, planner, or risk predictor.
+  return savedAssignments
+    .map((assignment, index) => normalizeSavedAssignment(assignment, index))
+    .filter(Boolean);
 }
 
 export function saveAddedAssignments(assignments) {
@@ -86,9 +97,11 @@ export function loadGardenCoins(fallbackCoins = 0) {
 }
 
 export function saveGardenCoins(coins) {
+  const safeCoins = Number.isFinite(coins) ? coins : 0;
+
   // Coins are saved as a number. Math.max keeps the saved value from going
   // below zero if a task is unchecked.
-  writeJson(STORAGE_KEYS.gardenCoins, Math.max(Math.floor(coins), 0));
+  writeJson(STORAGE_KEYS.gardenCoins, Math.max(Math.floor(safeCoins), 0));
 }
 
 export function loadGardenStageId(fallbackStageId = "stage-1") {
@@ -174,4 +187,96 @@ export function clearStudySproutStorage() {
   Object.values(STORAGE_KEYS).forEach((key) => {
     window.localStorage.removeItem(key);
   });
+}
+
+function normalizeSavedAssignment(assignment, index) {
+  if (!assignment || typeof assignment !== "object") {
+    return null;
+  }
+
+  const id =
+    typeof assignment.id === "string" && assignment.id.trim()
+      ? assignment.id
+      : `saved-assignment-${index + 1}`;
+  const rawTasks = Array.isArray(assignment.tasks) ? assignment.tasks : [];
+  const tasks = rawTasks
+    .map((task, taskIndex) => normalizeSavedTask(task, taskIndex, id))
+    .filter(Boolean);
+  const safeTasks =
+    tasks.length > 0
+      ? tasks
+      : [
+          {
+            id: `${id}-task-1`,
+            label: "Open the assignment and choose one tiny first step.",
+            minutes: 10,
+          },
+        ];
+  const estimatedHours = getSafeNumber(
+    assignment.estimatedHours,
+    Math.max(
+      0.5,
+      safeTasks.reduce((sum, task) => sum + task.minutes, 0) / 60,
+    ),
+  );
+  const difficulty = VALID_DIFFICULTIES.includes(assignment.difficulty)
+    ? assignment.difficulty
+    : "medium";
+
+  return {
+    ...assignment,
+    id,
+    course:
+      typeof assignment.course === "string" && assignment.course.trim()
+        ? assignment.course.trim()
+        : "Study",
+    title:
+      typeof assignment.title === "string" && assignment.title.trim()
+        ? assignment.title.trim()
+        : "Untitled assignment",
+    dueDate: typeof assignment.dueDate === "string" ? assignment.dueDate : "",
+    dueInDays: Math.max(Math.floor(getSafeNumber(assignment.dueInDays, 0)), 0),
+    difficulty,
+    estimatedHours,
+    completedHours: getSafeNumber(assignment.completedHours, 0),
+    availableHoursThisWeek: Math.max(
+      1,
+      Math.floor(getSafeNumber(assignment.availableHoursThisWeek, estimatedHours)),
+    ),
+    recentFocusScore: Math.max(
+      0,
+      Math.min(Math.floor(getSafeNumber(assignment.recentFocusScore, 70)), 100),
+    ),
+    startHere:
+      typeof assignment.startHere === "string" && assignment.startHere.trim()
+        ? assignment.startHere.trim()
+        : safeTasks[0].label,
+    tasks: safeTasks,
+  };
+}
+
+function normalizeSavedTask(task, index, assignmentId) {
+  if (!task || typeof task !== "object") {
+    return null;
+  }
+
+  const label =
+    typeof task.label === "string" && task.label.trim()
+      ? task.label.trim()
+      : `Study step ${index + 1}`;
+
+  return {
+    id:
+      typeof task.id === "string" && task.id.trim()
+        ? task.id
+        : `${assignmentId}-task-${index + 1}`,
+    label,
+    minutes: Math.max(5, Math.round(getSafeNumber(task.minutes, 10))),
+  };
+}
+
+function getSafeNumber(value, fallbackValue) {
+  const number = Number(value);
+
+  return Number.isFinite(number) ? number : fallbackValue;
 }

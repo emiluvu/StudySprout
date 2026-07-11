@@ -18,7 +18,7 @@ export function GreetingHeader({
     <section className="dashboard-greeting" aria-labelledby="dashboard-heading">
       <div className="dashboard-greeting-copy">
         <p className="eyebrow">{getDashboardDateLabel(now)}</p>
-        <h1 id="dashboard-heading">{getGreetingText(now)}, sprout.</h1>
+        <h1 id="dashboard-heading">{getGreetingText(now)}, Emilia.</h1>
         <p className="dashboard-subtitle">
           {getMossySubtitle({
             highestRiskAssignment,

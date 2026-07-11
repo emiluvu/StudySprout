@@ -4,9 +4,24 @@ import { MossyAvatar } from "./MossyAvatar.jsx";
 
 // TopGardenBar adds the small progress controls from the inspiration layout.
 // It shows coins earned from tasks, while the real upgrade logic stays in App.
-export function TopGardenBar({ coins }) {
+export function TopGardenBar({ coins, chibiGardenLine }) {
   return (
     <header className="top-garden-bar" aria-label="StudySprout progress summary">
+      <img
+        className="chibi-garden-line"
+        src={chibiGardenLine}
+        alt=""
+        aria-hidden="true"
+        style={{
+        display: "block",
+        width: "700px",
+        right: "470px",
+        marginBottom: "-25px",
+        transform: "translateX(250px)",
+        position: "relative",
+        zIndex: 10,
+      }}
+      />
       <div className="leaf-counter" aria-label={`${coins} garden coins`}>
         <img alt="" aria-hidden="true" src={dashboardIcon} />
         <span>{coins}</span>

@@ -14,6 +14,7 @@ export function UpcomingDeadlines({
   onSelectAssignment,
 }) {
   const upcomingAssignments = getUpcomingAssignments(assignments);
+  const hasAssignments = upcomingAssignments.length > 0;
 
   return (
     <section className="card dashboard-card upcoming-card">
@@ -26,6 +27,13 @@ export function UpcomingDeadlines({
       </div>
 
       <div className="deadline-list">
+        {!hasAssignments ? (
+          <div className="friendly-empty-state">
+            <strong>No deadlines yet.</strong>
+            <p>Add an assignment to see your next three due dates here.</p>
+          </div>
+        ) : null}
+
         {upcomingAssignments.map((assignment) => {
           const progress = getAssignmentProgress(assignment, completedTaskIds);
 

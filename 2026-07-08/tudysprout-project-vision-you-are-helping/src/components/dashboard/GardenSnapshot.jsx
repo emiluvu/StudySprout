@@ -1,5 +1,5 @@
 import { Coins, Sprout } from "lucide-react";
-import wateringCan from "../../assets/illustrations/watering-can.webp";
+import { getCurrentGardenStage } from "../../utils/rewards.js";
 
 // GardenSnapshot is the dashboard preview of the new garden game system.
 // It shows the current stage and coin progress, while upgrades happen in Garden.
@@ -10,8 +10,13 @@ export function GardenSnapshot({
   nextStage,
   totalTaskCount,
 }) {
+  const safeCoins = Number.isFinite(coins) ? coins : 0;
+  const safeCurrentStage = currentStage ?? getCurrentGardenStage();
+  const coinsNeeded = nextStage
+    ? Math.max(nextStage.upgradeCost - safeCoins, 0)
+    : 0;
   const upgradeProgress = nextStage
-    ? Math.min(Math.round((coins / nextStage.upgradeCost) * 100), 100)
+    ? Math.min(Math.round((safeCoins / nextStage.upgradeCost) * 100), 100)
     : 100;
   const taskProgress =
     totalTaskCount === 0 ? 0 : Math.round((completedCount / totalTaskCount) * 100);
@@ -21,7 +26,7 @@ export function GardenSnapshot({
       <div className="dashboard-card-heading">
         <div>
           <p className="eyebrow">Garden</p>
-          <h2>{currentStage.name}</h2>
+          <h2>{safeCurrentStage.name}</h2>
         </div>
         <Sprout size={22} />
       </div>
@@ -30,7 +35,7 @@ export function GardenSnapshot({
         <Coins size={30} />
         <div>
           <span>Garden coins</span>
-          <strong>{coins} coins</strong>
+          <strong>{safeCoins} coins</strong>
         </div>
       </div>
 
@@ -45,7 +50,11 @@ export function GardenSnapshot({
 
       <p className="garden-progress-note">
         {nextStage
-          ? `${nextStage.upgradeCost} coins needed · ${taskProgress}% of visible tasks done`
+          ? coinsNeeded === 0
+            ? `Ready to upgrade · ${taskProgress}% of visible tasks done`
+            : `${coinsNeeded} more coin${
+                coinsNeeded === 1 ? "" : "s"
+              } needed · ${taskProgress}% of visible tasks done`
           : `Full sanctuary complete · ${taskProgress}% of visible tasks done`}
       </p>
     </section>

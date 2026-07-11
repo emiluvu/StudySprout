@@ -11,6 +11,7 @@ import { MossyCard } from "./MossyCard.jsx";
 import { QuickActions } from "./QuickActions.jsx";
 import { TodayFocus } from "./TodayFocus.jsx";
 import { UpcomingDeadlines } from "./UpcomingDeadlines.jsx";
+import chibiGardenLine from "../../assets/illustrations/chibi-garden-line.png";
 
 // Dashboard is the polished homepage view. It receives data from App, then
 // arranges smaller cards so each question has a clear place on the page.
@@ -85,6 +86,18 @@ export function Dashboard({
           onSelectAssignment={onSelectAssignment}
         />
 
+      </div>
+
+      <aside className="dashboard-garden-column" aria-label="Garden sidebar">
+        <GardenScene completedCount={completedCount} totalTasks={totalTaskCount} />
+
+        <GardenSnapshot
+          coins={gardenCoins}
+          completedCount={completedCount}
+          currentStage={currentGardenStage}
+          nextStage={nextGardenStage}
+          totalTaskCount={totalTaskCount}
+        />
         <DashboardTasks
           completedTaskIds={completedTaskIds}
           onStartFocus={onStartFocus}
@@ -92,26 +105,6 @@ export function Dashboard({
           tasks={todayPlan}
           todayCompletedCount={todayCompletedCount}
           totalMinutes={totalMinutes}
-        />
-      </div>
-
-      <aside className="dashboard-garden-column" aria-label="Garden sidebar">
-        <GardenScene completedCount={completedCount} totalTasks={totalTaskCount} />
-
-        <MossyCard
-          completedCount={completedCount}
-          completedTaskIds={completedTaskIds}
-          focusAssignment={highestRiskAssignment}
-          todayCompletedCount={todayCompletedCount}
-          todayPlan={todayPlan}
-          todayTaskCount={todayTaskCount}
-        />
-        <GardenSnapshot
-          coins={gardenCoins}
-          completedCount={completedCount}
-          currentStage={currentGardenStage}
-          nextStage={nextGardenStage}
-          totalTaskCount={totalTaskCount}
         />
       </aside>
 

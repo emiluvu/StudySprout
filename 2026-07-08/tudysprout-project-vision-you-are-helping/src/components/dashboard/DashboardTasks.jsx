@@ -13,6 +13,7 @@ export function DashboardTasks({
   const taskCount = tasks.length;
   const progressPercent =
     taskCount === 0 ? 0 : Math.round((todayCompletedCount / taskCount) * 100);
+  const hasTasks = taskCount > 0;
 
   return (
     <section className="card dashboard-card dashboard-tasks-card">
@@ -38,6 +39,16 @@ export function DashboardTasks({
       </div>
 
       <div className="dashboard-task-list">
+        {!hasTasks ? (
+          <div className="friendly-empty-state">
+            <strong>No tasks planned for today.</strong>
+            <p>
+              Add an assignment in Planner and StudySprout will plant the first
+              tiny step here.
+            </p>
+          </div>
+        ) : null}
+
         {tasks.map((task) => {
           const isComplete = completedTaskIds.has(task.id);
 

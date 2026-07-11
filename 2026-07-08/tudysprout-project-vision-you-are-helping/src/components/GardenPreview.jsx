@@ -1,5 +1,5 @@
 import { CheckSquare, Coins, Sparkles, Sprout } from "lucide-react";
-import wateringCan from "../assets/illustrations/watering-can.webp";
+import { getCurrentGardenStage } from "../utils/rewards.js";
 
 // GardenPreview is the full Garden tab. It now works like a simple game:
 // complete study tasks -> earn coins -> spend coins to upgrade one default garden.
@@ -9,10 +9,14 @@ export function GardenPreview({
   nextStage,
   onUpgradeGarden,
 }) {
+  const safeCoins = Number.isFinite(coins) ? coins : 0;
+  const safeCurrentStage = currentStage ?? getCurrentGardenStage();
   const isMaxStage = !nextStage;
-  const canAffordUpgrade = nextStage ? coins >= nextStage.upgradeCost : false;
+  const canAffordUpgrade = nextStage
+    ? safeCoins >= nextStage.upgradeCost
+    : false;
   const coinsNeeded = nextStage
-    ? Math.max(nextStage.upgradeCost - coins, 0)
+    ? Math.max(nextStage.upgradeCost - safeCoins, 0)
     : 0;
 
   // The button is disabled when there is no next stage or when the student has
@@ -30,12 +34,12 @@ export function GardenPreview({
           </p>
         </div>
 
-        <div className="garden-coin-wallet" aria-label={`${coins} garden coins`}>
+        <div className="garden-coin-wallet" aria-label={`${safeCoins} garden coins`}>
           <span className="garden-coin-icon" aria-hidden="true">
             <Coins size={32} />
           </span>
           <div>
-            <strong>{coins}</strong>
+            <strong>{safeCoins}</strong>
             <span>My Coins</span>
           </div>
         </div>
@@ -48,13 +52,16 @@ export function GardenPreview({
           {/* The image comes from the current stage data, so each upgrade
               automatically swaps to the next watercolor garden asset. */}
           <div className="garden-current-image-frame">
-            <img src={currentStage.imageSrc} alt={`${currentStage.name} garden stage`} />
+            <img
+              src={safeCurrentStage.imageSrc}
+              alt={`${safeCurrentStage.name} garden stage`}
+            />
           </div>
 
           <div className="garden-current-details">
-            <span className="garden-stage-pill">{currentStage.stageLabel}</span>
-            <h2>{currentStage.name}</h2>
-            <p>{currentStage.description}</p>
+            <span className="garden-stage-pill">{safeCurrentStage.stageLabel}</span>
+            <h2>{safeCurrentStage.name}</h2>
+            <p>{safeCurrentStage.description}</p>
           </div>
         </article>
 
@@ -130,7 +137,7 @@ export function GardenPreview({
           text="Small steps every day grow a beautiful garden."
         />
         <GardenTip
-          imageSrc={wateringCan}
+          icon={<Sparkles size={34} />}
           title="Watch It Grow"
           text="Upgrade your garden and unlock new stages."
         />

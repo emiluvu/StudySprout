@@ -27,7 +27,8 @@ export function SettingsPanel({ answers, onResetSavedData, onSaveAnswers }) {
 
         <p className="settings-copy">
           This clears assignments you added, completed task progress, onboarding
-          answers, and the latest study guide draft from this browser.
+          answers, garden coins, garden stage, and the latest study guide draft
+          from this browser.
         </p>
 
         <button className="danger-button" onClick={handleResetClick} type="button">

@@ -14,6 +14,7 @@ import { sampleAssignments } from "./data/sampleAssignments.js";
 import { createAssignmentFromForm } from "./utils/assignments.js";
 import { defaultOnboardingAnswers } from "./utils/onboarding.js";
 import { calculateRisk, sortAssignmentsByRisk } from "./utils/risk.js";
+import chibiGardenLine from "./assets/illustrations/chibi-garden-line.png";
 import {
   COINS_PER_TASK,
   getCurrentGardenStage,
@@ -347,11 +348,9 @@ export default function App() {
         <section className="single-tab-layout" aria-label="Garden rewards">
           <GardenPreview
             coins={gardenCoins}
-            completedCount={completedCount}
             currentStage={currentGardenStage}
             nextStage={nextGardenStage}
             onUpgradeGarden={upgradeGarden}
-            totalTasks={allTasks.length}
           />
         </section>
       );
@@ -407,7 +406,7 @@ export default function App() {
       />
 
       <section className="app-main-panel">
-        <TopGardenBar coins={gardenCoins} />
+        <TopGardenBar coins={gardenCoins} chibiGardenLine={chibiGardenLine} />
 
         <section
           aria-label="Selected StudySprout section"

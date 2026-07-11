@@ -1,6 +1,7 @@
 import { GardenScene } from "./GardenScene.jsx";
 import { MossyAvatar } from "./MossyAvatar.jsx";
 import { NavigationTabs } from "./NavigationTabs.jsx";
+import { Sprout } from "lucide-react";
 
 // AppSidebar creates the persistent garden-home feeling. It wraps the existing
 // tab navigation, so the app still changes screens through React state only.
@@ -13,7 +14,7 @@ export function AppSidebar({
   return (
     <aside className="app-sidebar" aria-label="StudySprout navigation">
       <div className="brand-lockup">
-        <span className="brand-mark">S</span>
+        <Sprout size={28} strokeWidth={2.2} />
         <div>
           <p className="brand-name">StudySprout</p>
           <span>quiet study garden</span>

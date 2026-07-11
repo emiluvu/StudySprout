@@ -7,6 +7,7 @@ export function WeeklyPlan({ onSelectAssignment, plan }) {
     (sum, assignmentPlan) => sum + assignmentPlan.totalMinutes,
     0,
   );
+  const hasAssignments = plan.length > 0;
 
   return (
     <section className="card weekly-card" aria-labelledby="weekly-plan-heading">
@@ -22,6 +23,16 @@ export function WeeklyPlan({ onSelectAssignment, plan }) {
       </div>
 
       <div className="weekly-list">
+        {!hasAssignments ? (
+          <div className="friendly-empty-state">
+            <strong>No assignments to plan yet.</strong>
+            <p>
+              Add your first assignment and StudySprout will split it into
+              day-by-day study steps.
+            </p>
+          </div>
+        ) : null}
+
         {plan.map((assignmentPlan) => (
           <article className="weekly-assignment" key={assignmentPlan.assignmentId}>
             <div className="weekly-assignment-heading">

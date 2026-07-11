@@ -144,17 +144,14 @@ textarea {
   pointer-events: none;
   content: "";
   opacity: 0.22;
-  background:
-    radial-gradient(ellipse at 28% 24%, var(--leaf) 0 12px, transparent 13px),
-    radial-gradient(ellipse at 58% 40%, var(--leaf-dark) 0 11px, transparent 12px),
-    radial-gradient(ellipse at 36% 58%, var(--clay) 0 10px, transparent 11px),
-    linear-gradient(115deg, transparent 40%, var(--leaf-dark) 41% 43%, transparent 44%);
-  transform: rotate(17deg);
 }
 
+
 .app-main-panel {
+  position: relative;
   display: grid;
   gap: 18px;
+  padding-bottom: 170px;
 }
 
 .top-garden-bar {
@@ -325,7 +322,8 @@ textarea {
 }
 
 .tab-view {
-  min-width: 0;
+  position: relative;
+  z-index: 2;
 }
 
 /* The hero introduces the product through the actual daily planning experience. */
@@ -1199,6 +1197,30 @@ h3 {
   line-height: 1.55;
 }
 
+.friendly-empty-state {
+  display: grid;
+  gap: 6px;
+  padding: 18px;
+  color: var(--muted);
+  background:
+    url("./assets/illustrations/lotus-flowers.webp") right -48px bottom -62px / 150px auto no-repeat,
+    rgba(255, 250, 240, 0.7);
+  border: 1px dashed rgba(137, 158, 108, 0.42);
+  border-radius: 8px;
+}
+
+.friendly-empty-state strong {
+  color: var(--leaf-dark);
+  font-family: ui-serif, Georgia, Cambria, "Times New Roman", serif;
+  font-size: 1.05rem;
+}
+
+.friendly-empty-state p {
+  max-width: 34rem;
+  margin-bottom: 0;
+  line-height: 1.5;
+}
+
 .dashboard-metrics {
   display: grid;
   gap: 10px;
@@ -1695,37 +1717,7 @@ h3 {
   border-radius: 8px;
 }
 
-.watercolor-footer {
-  min-height: 170px;
-  margin-top: -30px;
-  overflow: hidden;
-  border-radius: 8px;
-  opacity: 0.78;
-  pointer-events: none;
-  -webkit-mask-image: linear-gradient(
-  180deg,
-  transparent 0%,
-  #000 10%,
-  #000 92%,
-  transparent 100%
-);
 
-mask-image: linear-gradient(
-  180deg,
-  transparent 0%,
-  #000 10%,
-  #000 92%,
-  transparent 100%
-);
-}
-
-.watercolor-footer img {
-  display: block;
-  width: 100%;
-  height: 220px;
-  object-fit: cover;
-  object-position: center bottom;
-}
 
 /* Assignment details reuse the same cozy dashboard language, but zoom in on one
    assignment so the student can understand risk, tasks, notes, and schedule. */
@@ -1932,6 +1924,46 @@ mask-image: linear-gradient(
 .focus-mossy-card,
 .focus-summary-card {
   grid-column: 1 / -1;
+}
+
+.watercolor-footer {
+  position: absolute;
+
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  height: 340px;
+
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.watercolor-footer img {
+  position: absolute;
+
+  left: 0;
+  bottom: -20px;
+
+  width: 100%;
+  height: auto;
+
+  object-fit: cover;
+
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0,0,0,.2) 10%,
+    black 22%
+  );
+
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0,0,0,.2) 10%,
+    black 22%
+  );
 }
 
 .focus-task-copy {
@@ -3563,25 +3595,37 @@ mask-image: linear-gradient(
   position: relative;
   overflow: hidden;
   min-height: 620px;
-}
+  }
+  .garden-preview-background {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center bottom;
+    z-index: 0;
+    opacity: 0.9;
+  }
 
-.garden-preview-background {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center bottom;
-  z-index: 0;
-  opacity: 0.9;
-}
+  .garden-snapshot-content {
+    position: relative;
+    z-index: 2;
+  }
 
-.garden-snapshot-content {
-  position: relative;
-  z-index: 2;
-}
+  .garden-widget-image {
+    z-index: 3;
+  }
 
-.garden-widget-image {
-  z-index: 3;
-}
-}
+  .chibi-garden-line{
+    height: 70px !important;
+    width: auto !important;
+    max-width: 100% !important;
+    margin: 0 auto -18px auto !important;
+    display: block !important;
+    position: relative !important;
+    z-index: 10 !important;
+    border: 5px solid red !important;
+  }
+  
+
+  }

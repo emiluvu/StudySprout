@@ -7,11 +7,9 @@ import { StatCard } from "../StatCard.jsx";
 import { DashboardTasks } from "./DashboardTasks.jsx";
 import { GardenSnapshot } from "./GardenSnapshot.jsx";
 import { GreetingHeader } from "./GreetingHeader.jsx";
-import { MossyCard } from "./MossyCard.jsx";
 import { QuickActions } from "./QuickActions.jsx";
 import { TodayFocus } from "./TodayFocus.jsx";
 import { UpcomingDeadlines } from "./UpcomingDeadlines.jsx";
-import chibiGardenLine from "../../assets/illustrations/chibi-garden-line.png";
 
 // Dashboard is the polished homepage view. It receives data from App, then
 // arranges smaller cards so each question has a clear place on the page.
